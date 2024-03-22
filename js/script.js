@@ -19,5 +19,13 @@ const gameBoard = (function() {
 
     let toggleCurrentPlayer = () => currentPlayer = currentPlayer == player1 ? player2 : player1;
 
-    return {getCurrentPlayer, toggleCurrentPlayer}
+    let markBoard = (i, j) => {
+        if (board[i][j] == "") {
+            board[i][j] = currentPlayer.getMarker();
+            toggleCurrentPlayer();
+        }
+        console.log(board);
+    };
+
+    return {getCurrentPlayer, toggleCurrentPlayer, markBoard}
 })();
