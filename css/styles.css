@@ -33,3 +33,7 @@ p {
     align-items: center;
     font-size: 64px;
 }
+
+#board>div:hover {
+    cursor: pointer;
+}

@@ -17,25 +17,34 @@ const gameBoard = (function() {
 
     let currentPlayer = player1;
 
+    document.addEventListener('DOMContentLoaded', () => {
+        displayManager.updateMessage(gameOver, currentPlayer.getName());
+    });
+
     let getCurrentPlayer = () => currentPlayer;
 
     let toggleCurrentPlayer = () => currentPlayer = currentPlayer == player1 ? player2 : player1;
 
-    let markBoard = (i, j) => {
+    let markBoard = (n) => {
         if (gameOver) {
             return;
         }
+        let i = Math.floor(n / 3);
+        let j = n % 3;
         if (board[i][j] == "") {
             board[i][j] = currentPlayer.getMarker();
-            displayManager.updateCell(i, j, currentPlayer.getMarker());
+            displayManager.updateCell(n, currentPlayer.getMarker());
             if (checkPlayerWin()) {
                 console.log(`Game over! ${currentPlayer.getName()} wins!`);
                 gameOver = true;
+                displayManager.updateMessage(gameOver, currentPlayer.getName());
             } else if (checkTie()) {
                 console.log("Game over! Tie! Nobody wins!");
                 gameOver = true;
+                displayManager.updateMessage(gameOver);
             } else {
                 toggleCurrentPlayer();
+                displayManager.updateMessage(gameOver, currentPlayer.getName());
             }
         }
         console.log(board);
@@ -88,13 +97,30 @@ const gameBoard = (function() {
 
     let getBoard = () => board;
 
-    return {getCurrentPlayer, toggleCurrentPlayer, markBoard, getBoard, resetGame}
+    return {getCurrentPlayer, toggleCurrentPlayer, markBoard, getBoard, resetGame};
 })();
 
 const displayManager = (function() {
     const board = document.querySelector("#board");
-    let updateCell = (i, j, marker) => {
-        board.children[3 * i + j].textContent = marker;
+    const message = document.querySelector("#message");
+    for (let i = 0; i < board.children.length; i++) {
+        board.children[i].addEventListener("click", () => {
+            gameBoard.markBoard(i);
+        });
     }
-    return {updateCell}
+    let updateCell = (n, marker) => {
+        board.children[n].textContent = marker;
+    }
+    let updateMessage = (over, player = "") => {
+        if (over) {
+            if (player) {
+                message.textContent = `Game over! ${player} wins!`;
+            } else {
+                message.textContent = `Game over! Tie! Nobody wins!`;
+            } 
+        } else {
+            message.textContent = `${player}'s turn!`;
+        }
+    }
+    return {updateCell, updateMessage};
 })();
