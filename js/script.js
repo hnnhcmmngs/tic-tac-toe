@@ -75,7 +75,17 @@ const gameBoard = (function() {
         return true;
     }
 
+    let resetGame = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                board[i][j] = ""
+            }
+        }
+        gameOver = false;
+        currentPlayer = player1;
+    }
+
     let getBoard = () => board;
 
-    return {getCurrentPlayer, toggleCurrentPlayer, markBoard, getBoard}
+    return {getCurrentPlayer, toggleCurrentPlayer, markBoard, getBoard, resetGame}
 })();
