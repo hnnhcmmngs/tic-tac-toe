@@ -27,6 +27,7 @@ const gameBoard = (function() {
         }
         if (board[i][j] == "") {
             board[i][j] = currentPlayer.getMarker();
+            displayManager.updateCell(i, j, currentPlayer.getMarker());
             if (checkPlayerWin()) {
                 console.log(`Game over! ${currentPlayer.getName()} wins!`);
                 gameOver = true;
@@ -88,4 +89,12 @@ const gameBoard = (function() {
     let getBoard = () => board;
 
     return {getCurrentPlayer, toggleCurrentPlayer, markBoard, getBoard, resetGame}
+})();
+
+const displayManager = (function() {
+    const board = document.querySelector("#board");
+    let updateCell = (i, j, marker) => {
+        board.children[3 * i + j].textContent = marker;
+    }
+    return {updateCell}
 })();
