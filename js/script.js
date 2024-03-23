@@ -21,6 +21,11 @@ const gameBoard = (function() {
         displayManager.updateMessage(gameOver, currentPlayer.getName());
     });
 
+    const resetButton = document.querySelector("#reset");
+    resetButton.addEventListener("click", () => {
+        resetGame();
+    });
+
     let getCurrentPlayer = () => currentPlayer;
 
     let toggleCurrentPlayer = () => currentPlayer = currentPlayer == player1 ? player2 : player1;
@@ -89,10 +94,12 @@ const gameBoard = (function() {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 board[i][j] = ""
+                displayManager.updateCell(3 * i + j, "");
             }
         }
         gameOver = false;
         currentPlayer = player1;
+        displayManager.updateMessage(gameOver, currentPlayer.getName());
     }
 
     let getBoard = () => board;
