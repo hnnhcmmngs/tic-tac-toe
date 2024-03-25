@@ -32,11 +32,6 @@ const gameBoard = (function() {
         });
     });
 
-    const resetButton = document.querySelector("#reset");
-    resetButton.addEventListener("click", () => {
-        resetGame();
-    });
-
     let getCurrentPlayer = () => currentPlayer;
 
     let toggleCurrentPlayer = () => currentPlayer = currentPlayer == player1 ? player2 : player1;
@@ -53,6 +48,13 @@ const gameBoard = (function() {
             if (checkPlayerWin()) {
                 console.log(`Game over! ${currentPlayer.getName()} wins!`);
                 gameOver = true;
+                if (currentPlayer == player1) {
+                    wins[0] += 1;
+                    displayManager.updateWins(1, wins[0]);
+                } else {
+                    wins[1] += 1;
+                    displayManager.updateWins(2, wins[1]);
+                }
                 displayManager.updateMessage(gameOver, currentPlayer.getName());
             } else if (checkTie()) {
                 console.log("Game over! Tie! Nobody wins!");
@@ -121,8 +123,14 @@ const gameBoard = (function() {
 const displayManager = (function() {
     const board = document.querySelector("#board");
     const message = document.querySelector("#message");
-    const player1 = document.querySelector("#firstplayer>div:nth-child(2)");
-    const player2 = document.querySelector("#secondplayer>div:nth-child(2)");
+    const player1 = document.querySelector("#firstplayer");
+    const player2 = document.querySelector("#secondplayer");
+    const resetButton = document.querySelector("#reset");
+
+    resetButton.addEventListener("click", () => {
+        gameBoard.resetGame();
+    });
+
     for (let i = 0; i < board.children.length; i++) {
         board.children[i].addEventListener("click", () => {
             gameBoard.markBoard(i);
@@ -144,10 +152,17 @@ const displayManager = (function() {
     }
     let updatePlayerName = (n, playerName) => {
         if (n == 1) {
-            player1.textContent = playerName;
-        } else if (n == 2) {
-            player2.textContent = playerName;
+            player1.children[1].textContent = playerName;
+        } else {
+            player2.children[1].textContent = playerName;
         }
     }
-    return {updateCell, updateMessage, updatePlayerName};
+    let updateWins = (n, wins) => {
+        if (n == 1) {
+            player1.children[3].textContent = wins;
+        } else {
+            player2.children[3].textContent = wins;
+        }
+    }
+    return {updateCell, updateMessage, updatePlayerName, updateWins};
 })();
