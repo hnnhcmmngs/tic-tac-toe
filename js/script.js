@@ -56,10 +56,12 @@ const gameBoard = (function() {
                     displayManager.updateWins(2, wins[1]);
                 }
                 displayManager.updateMessage(gameOver, currentPlayer.getName());
+                displayManager.toggleButton();
             } else if (checkTie()) {
                 console.log("Game over! Tie! Nobody wins!");
                 gameOver = true;
                 displayManager.updateMessage(gameOver);
+                displayManager.toggleButton();
             } else {
                 toggleCurrentPlayer();
                 displayManager.updateMessage(gameOver, currentPlayer.getName());
@@ -129,6 +131,7 @@ const displayManager = (function() {
 
     resetButton.addEventListener("click", () => {
         gameBoard.resetGame();
+        toggleButton();
     });
 
     for (let i = 0; i < board.children.length; i++) {
@@ -164,5 +167,8 @@ const displayManager = (function() {
             player2.children[3].textContent = wins;
         }
     }
-    return {updateCell, updateMessage, updatePlayerName, updateWins};
+    let toggleButton = () => {
+        resetButton.disabled = resetButton.disabled ? false : true;
+    }
+    return {updateCell, updateMessage, updatePlayerName, updateWins, toggleButton};
 })();
