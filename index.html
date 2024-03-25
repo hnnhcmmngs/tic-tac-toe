@@ -21,6 +21,34 @@
         <div></div>
         <div></div>
     </div>
-    <button id="reset">Reset Game</button>
+    <div id="playerinfo">
+        <span id="firstplayer">
+            <div>X</div>
+            <div></div>
+            <div>Wins:</div>
+            <div>0</div>
+        </span>
+        <span id="secondplayer">
+            <div>O</div>
+            <div></div>
+            <div>Wins:</div>
+            <div>0</div>
+        </span>
+    </div>
+    <button id="reset">New Game</button>
+    <dialog id="names">
+        <p>Enter each player's name:</p>
+        <form method="dialog" id="nameform">
+            <div>
+                <label for="player1">First Player's Name:</label>
+                <input type="text" name="player1" id="player1" required>
+            </div>
+            <div>
+                <label for="player2">Second Player's Name:</label>
+                <input type="text" name="player2" id="player2" required>
+            </div>
+            <input type="submit" id="addnames" value="Play">
+        </form>
+    </dialog>
 </body>
 </html>

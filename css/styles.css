@@ -37,3 +37,8 @@ p {
 #board>div:hover {
     cursor: pointer;
 }
+
+#playerinfo {
+    display: flex;
+    gap: 64px;
+}

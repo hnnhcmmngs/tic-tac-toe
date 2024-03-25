@@ -12,13 +12,24 @@ const gameBoard = (function() {
         let getMarker = () => marker;
         return {getName, getMarker};
     }
-    let player1 = Player("Player 1", "X");
-    let player2 = Player("Player 2", "O");
+    let player1;
+    let player2;
+    let currentPlayer;
+    let wins = [0, 0];
 
-    let currentPlayer = player1;
+    const dialog = document.querySelector("#names");
+    const nameform = document.querySelector("#nameform");
 
     document.addEventListener('DOMContentLoaded', () => {
-        displayManager.updateMessage(gameOver, currentPlayer.getName());
+        dialog.showModal();
+        nameform.addEventListener("submit", () => {
+            player1 = Player(document.querySelector("#player1").value, "X");
+            player2 = Player(document.querySelector("#player2").value, "O");
+            currentPlayer = player1;
+            displayManager.updateMessage(gameOver, currentPlayer.getName());
+            displayManager.updatePlayerName(1, player1.getName());
+            displayManager.updatePlayerName(2, player2.getName());
+        });
     });
 
     const resetButton = document.querySelector("#reset");
@@ -110,6 +121,8 @@ const gameBoard = (function() {
 const displayManager = (function() {
     const board = document.querySelector("#board");
     const message = document.querySelector("#message");
+    const player1 = document.querySelector("#firstplayer>div:nth-child(2)");
+    const player2 = document.querySelector("#secondplayer>div:nth-child(2)");
     for (let i = 0; i < board.children.length; i++) {
         board.children[i].addEventListener("click", () => {
             gameBoard.markBoard(i);
@@ -129,5 +142,12 @@ const displayManager = (function() {
             message.textContent = `${player}'s turn!`;
         }
     }
-    return {updateCell, updateMessage};
+    let updatePlayerName = (n, playerName) => {
+        if (n == 1) {
+            player1.textContent = playerName;
+        } else if (n == 2) {
+            player2.textContent = playerName;
+        }
+    }
+    return {updateCell, updateMessage, updatePlayerName};
 })();
