@@ -45,7 +45,8 @@ const gameBoard = (function() {
         if (board[i][j] == "") {
             board[i][j] = currentPlayer.getMarker();
             displayManager.updateCell(n, currentPlayer.getMarker());
-            if (checkPlayerWin()) {
+            let status = checkPlayerWin();
+            if (status[0]) {
                 console.log(`Game over! ${currentPlayer.getName()} wins!`);
                 gameOver = true;
                 if (currentPlayer == player1) {
@@ -56,6 +57,7 @@ const gameBoard = (function() {
                     displayManager.updateWins(2, wins[1]);
                 }
                 displayManager.updateMessage(gameOver, currentPlayer.getName());
+                displayManager.colorCells(status[1], "red");
                 displayManager.toggleButton();
             } else if (checkTie()) {
                 console.log("Game over! Tie! Nobody wins!");
@@ -75,23 +77,23 @@ const gameBoard = (function() {
         // check rows
         for (let i = 0; i < 3; i++) {
             if (board[i][0] == currMarker && board[i][1] == currMarker && board[i][2] == currMarker) {
-                return true;
+                return [true, [3 * i, 3 * i + 1, 3 * i + 2]];
             }
         }
         // check columns
         for (let j = 0; j < 3; j++) {
             if (board[0][j] == currMarker && board[1][j] == currMarker && board[2][j] == currMarker) {
-                return true;
+                return [true, [j, 3 + j, 6 + j]];
             }
         }
         // check diagonals
         if (board[0][0] == currMarker && board[1][1] == currMarker && board[2][2] == currMarker) {
-            return true;
+            return [true, [0, 4, 8]];
         }
         if (board[0][2] == currMarker && board[1][1] == currMarker && board[2][0] == currMarker) {
-            return true;
+            return [true, [2, 4, 6]];
         }
-        return false;
+        return [false, []];
     };
 
     let checkTie = () => {
@@ -110,6 +112,7 @@ const gameBoard = (function() {
             for (let j = 0; j < 3; j++) {
                 board[i][j] = ""
                 displayManager.updateCell(3 * i + j, "");
+                displayManager.colorCells([3 * i + j], "black");
             }
         }
         gameOver = false;
@@ -170,5 +173,10 @@ const displayManager = (function() {
     let toggleButton = () => {
         resetButton.disabled = resetButton.disabled ? false : true;
     }
-    return {updateCell, updateMessage, updatePlayerName, updateWins, toggleButton};
+    let colorCells = (cells, color) => {
+        for (let cell of cells) {
+            board.children[cell].style.color = color;
+        }
+    }
+    return {updateCell, updateMessage, updatePlayerName, updateWins, toggleButton, colorCells};
 })();
