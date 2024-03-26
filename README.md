@@ -4,4 +4,6 @@ This is an implementation of the game Tic-Tac-Toe. The game allows users to inpu
 
 The purpose of this project is to become more familiar with factory functions and the module pattern in JavaScript and, of course, to further practice my HTML and CSS skills.
 
+A live preview of the website can be accessed at: https://hnnhcmmngs.github.io/tic-tac-toe/
+
 Image by <a href="https://pixabay.com/users/jozefm84-10215106/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6195771">Jozef Mikulcik</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6195771">Pixabay</a>
