@@ -39,13 +39,17 @@
     <dialog id="names">
         <p>Enter each player's name:</p>
         <form method="dialog" id="nameform">
-            <div>
-                <label for="player1">First Player's Name:</label>
-                <input type="text" name="player1" id="player1" required>
-            </div>
-            <div>
-                <label for="player2">Second Player's Name:</label>
-                <input type="text" name="player2" id="player2" required>
+            <div id="playerinputs">
+                <span>
+                    <div class="marker">X</div>
+                    <div><label for="player1">First Player:</label></div>
+                    <div><input type="text" name="player1" id="player1" required></div>
+                </span>
+                <span>
+                    <div class="marker">O</div>
+                    <div><label for="player2">Second Player:</label></div>
+                    <div><input type="text" name="player2" id="player2" required></div>
+                </span>
             </div>
             <input type="submit" id="addnames" value="Play">
         </form>
